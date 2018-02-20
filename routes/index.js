@@ -1,12 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const api = require('./api');
 
+module.exports = {
+	Api:api
+}
 
-
-
-//to arxeio auto th kanei import ola ta routers
-
-// export ta routers
-//kalw auto to arxeio stn main.js
