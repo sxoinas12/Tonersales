@@ -1,28 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-
-//log
-const login = require('../login/login');
+const users = require('../models/users');
 
 
-const mc = mysql.createConnection({
-	host:'localhost',
-	user:'root',
-	password:'',
-	database: 'node_task_demo'
-});
-
-
-mc.connect();
-//login.log(mc);
-
-
-//function for authentication
-
-
-
+const mc = require('../models/database');
 
 
 
@@ -78,22 +60,11 @@ router.post('/todo', function (req, res,next) {
 });
 
 
-router.post('/users',function(req,res,next){
-    let id = req.body.id;
-    let username = req.body.username;
-    let email = req.body.email;
-    let password = req.body.password;
-    if(!id ||  !username){
-        res.status(400).send({ error:true, message: 'Please provide id and username' });
-    }
-    mc.query("INSERT INTO users SET ?",{username:username , email:email , password:password },function(error,results,fields){
-        if (error) throw error;
-        res.send({ error: false, data: results, message: 'New user has been added successfully.' });
-    });
-});
+router.post('/register',users.Register);
 
-
+router.post('/login',users.Login);
 //not working yet
+/*
 router.post('/login',function(req,res,next){
     //database serach here
     console.log(req.body.username)
@@ -115,7 +86,7 @@ router.post('/login',function(req,res,next){
 
     });
 
-
+*/
 
 
 //not working 
