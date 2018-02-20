@@ -34,13 +34,19 @@ var login = function(data){
 
   var email= data.email;
   var password = data.password;
-  console.log("fine here")
+  var hash;
+  mc.query('SELECT password FROM USERS WHERE email = ? ',[email],function(error,results,fields){
+    hash = results;
+  
+  });
   bcrypt.compare(data.password, hash, function(err, res) {
     mc.query('SELECT * FROM users WHERE email = ? AND password = ?',[email, password],function (error, results, fields) {
     if (error) {
       flag = 1;
+
     }else{
       flag = 0;
+
      
 }
   });
