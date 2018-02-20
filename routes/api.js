@@ -17,9 +17,6 @@ router.get('/todos',function(req,res,next){
 
 
 
-//retrive items with id
-//for examples piciking a specific item frmo the site
-
 router.get('/todos/:id',function(req,res,next){
 	let id = req.params.id;
 
@@ -60,7 +57,32 @@ router.post('/todo', function (req, res,next) {
 });
 
 
-router.post('/register',users.Register);
+router.post('/register',function(req,res){
+    //var today = new Date();
+    var user={
+    username:req.body.username,
+    email:req.body.email,
+    password:req.body.password
+    //created: today.toISOString();
+  }
+    flag = users.Register(user);
+    console.log(flag);
+    if(flag === 0){
+        res.send({
+            "code":200,
+            "success":"register sucessfull"
+        });
+    }
+    else{
+        res.send({
+            "code":400,
+            "failed":"error occured"
+        });
+    }
+
+});
+
+//router.post('/register',users.Register);
 
 router.post('/login',users.Login);
 
