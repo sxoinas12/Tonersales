@@ -63,30 +63,6 @@ router.post('/todo', function (req, res,next) {
 router.post('/register',users.Register);
 
 router.post('/login',users.Login);
-//not working yet
-/*
-router.post('/login',function(req,res,next){
-    //database serach here
-    console.log(req.body.username)
-    let username = req.body.username;
-    let password = req.body.password;
-
-    if (req.body.username  && req.body.password ) {
-            mc.query("SELECT EXISTS(SELECT * FROM users WHERE username=? ",username,"AND password=? ",password,function(error,results,fields){
-                if (error) throw error;
-                res.send({error:false , data: results, message:"User successfully logged in"});
-                //res.redirect('/secure');
-            });
-    } 
-    else {
-        res.send({ error: true,  message: 'incorrect username and password' });
-        res.status(404)
-            //res.redirect('/login');
-        }
-
-    });
-
-*/
 
 
 //not working 
@@ -113,7 +89,7 @@ router.put('/todo', function (req, res,next) {
 });
 
 
-//delet data
+//delete data
 
 router.delete('/todo/:id', function (req, res) {
  
