@@ -3,14 +3,17 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const users = require('../models/users');
 
-
+var cookieParser = require('cookie-parser');
 const mc = require('../models/database');
+
+const session = require('express-session');
 
 
 
 router.get('/todos',function(req,res,next){
 	mc.query('SELECT * FROM tasks',function(error,results,fields){
 		if (error) throw error
+        //res.cookie(cookie_name,'cookie_value').send('cookie is set');
 		res.send({error:false , data :results ,message:'Todos list.'});
 	});
 });
