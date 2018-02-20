@@ -20,28 +20,23 @@ var register = function(data){
 
 
 
-var login = function(req,res){
+var login = function(data){
 
-  var email= req.body.email;
-  var password = req.body.password;
 
+  flag = 0;
+
+  var email= data.email;
+  var password = data.password;
+  console.log("fine here")
   mc.query('SELECT * FROM users WHERE email = ? AND password = ?',[email, password],function (error, results, fields) {
   if (error) {
-    // console.log("error ocurred",error);
-    res.send({
-      "code":400,
-      "failed":"error ocurred"
-    })
+    flag = 1;
   }else{
-    // console.log('The solution is: ', results);
-        res.send({
-          "code":200,
-          "success":"login sucessfull"
-            });
+    flag = 0;
      
 }
-  
   });
+  return flag;
 }
 
 

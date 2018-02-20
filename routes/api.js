@@ -59,6 +59,11 @@ router.post('/todo', function (req, res,next) {
 
 router.post('/register',function(req,res){
     //var today = new Date();
+
+    if(!req.body.email || !req.body.username || !req.body.password){
+        res.status(400).send({error : true , message:"Please provide all the required fields"});
+    }
+
     var user={
     username:req.body.username,
     email:req.body.email,
@@ -82,9 +87,31 @@ router.post('/register',function(req,res){
 
 });
 
-//router.post('/register',users.Register);
 
-router.post('/login',users.Login);
+router.post('/login',function(req,res,next){
+    if (!req.body.email || ! req.body.password){
+        res.status(400).send({error : true , message:"Please provide both username and password"});
+    }
+    var user = {
+        email:req.body.email,
+        password:req.body.password
+    }
+    flag = users.Login(user);
+     if(flag === 0){
+        res.send({
+            "code":200,
+            "success":"login sucessfull"
+        });
+    }
+    else{
+        res.send({
+            "code":400,
+            "failed":"error occured"
+        });
+    }
+});
+
+
 
 
 //not working 
