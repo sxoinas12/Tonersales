@@ -7,6 +7,7 @@ var parseToken = function(req,res,next){
 	}
 	mc.query('SELECT * from users where token = ?',[token],function(err,results,fields){
 		if(err){
+			//some more
 			res.status(400).send({error : true , message:"user cannot get authorized"});
 		}
 		else if(results.length === 0){
