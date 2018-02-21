@@ -11,13 +11,18 @@ var parseToken = function(req,res,next){
 			res.status(400).send({error : true , message:"user cannot get authorized"});
 		}
 		else if(results.length === 0){
-			res.status(400.send({error:true , message:"there is not a user in the base "}));
+			res.status(400).send({error:true , message:"there is not a user in the base "});
 
 		}
 		else {
 			req.user = results[0];
+			res.send(results);
+			console.log("user authorized");
 			next();
 		}
 	});
 
 }
+
+
+module.exports = parseToken;

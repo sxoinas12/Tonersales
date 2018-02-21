@@ -4,11 +4,13 @@ var cookieParser = require('cookie-parser');
 const session = require('express-session');
 const routes = require('./routes/index');
 
-
-
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const app = express();
+
+const parseToken = require('./middlewares/author.js');
+
+
 
 app.use(cookieParser());
 app.use(express.static('front-end'));
@@ -17,6 +19,11 @@ app.use(bodyParser.json());
 app.use('/api',routes.Api);
 
 
+// me poia seira tha graftoun
+
+app.use('/log',routes.Log);
+
+app.use('/log/token',parseToken);
 
 //session for each users 
 app.use(session({
