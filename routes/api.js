@@ -7,11 +7,12 @@ var cookieParser = require('cookie-parser');
 const mc = require('../models/database');
 
 const session = require('express-session');
-
+const bcrypt = require('bcrypt');
 
 
 router.get('/todos',function(req,res,next){
-    console.log(req.query.token);
+    salt = bcrypt.genSaltSync(10);
+    console.log(salt);
 	mc.query('SELECT * FROM tasks',function(error,results,fields){
 		if (error) throw error
         //res.cookie(cookie_name,'cookie_value').send('cookie is set');

@@ -27,8 +27,6 @@ return flag;
 
 }
 
-// 0 is false
-// 1 is true
 
 var login = function(data){
 
@@ -48,7 +46,14 @@ var login = function(data){
     
     bcrypt.compare(password, results.password, function(err, res) {
     console.log("login succesful");
+    token = bcrypt.genSaltSync(saltRounds);
+
     flag = 0;
+    mc.query('UPDATE users SET token = ? WHERE email = ?',[token,email],function(error,results,fields){
+      // εδω τι θα πάει
+    });
+
+    
 
 });
   
