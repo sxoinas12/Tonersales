@@ -11,6 +11,7 @@ const session = require('express-session');
 
 
 router.get('/todos',function(req,res,next){
+    console.log(req.query.token);
 	mc.query('SELECT * FROM tasks',function(error,results,fields){
 		if (error) throw error
         //res.cookie(cookie_name,'cookie_value').send('cookie is set');
@@ -100,7 +101,7 @@ router.post('/login',function(req,res,next){
         password:req.body.password
     }
     flag = users.Login(user);
-     if(flag === 0){
+     if(flag === 1){
         res.send({
             "code":200,
             "success":"login sucessfull"
