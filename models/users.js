@@ -39,7 +39,7 @@ var login = function(data){
     hash = results;
   
   });
-  bcrypt.compare(data.password, hash, function(err, res) {
+  bcrypt.compare(password, hash, function(err, res) {
     mc.query('SELECT * FROM users WHERE email = ? AND password = ?',[email, password],function (error, results, fields) {
     if (error) {
       flag = 1;
