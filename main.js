@@ -16,12 +16,13 @@ app.use(express.static('front-end'));
 
 app.use(bodyParser.json());
 
-app.use('/api',routes.Api);
+//app.use('/api',routes.Api);
 
 
 // me poia seira tha graftoun
 
 app.use('/log',routes.Log);
+app.use('/globals',routes.Globals);
 app.use(parseToken);
 
 

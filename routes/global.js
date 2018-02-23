@@ -4,17 +4,20 @@ var knex = require('../db/db.js');
 
 var Constants = require('../helpers/Constants.js');
 
-/* GET users listing. */
+
 router.get('/', (req, res) => {
   knex.table('globals').select('*').
   then((data) => {
     var result = {};
+    //το στελνει σαν dictionary
     for (var ic = 0; ic < data.length; ic += 1) {
       result[data[ic].Name] = data[ic].Value;
     }
     res.send(result);
   });
 });
+
+
 router.get('/id/:id', (req, res) => {
   knex.table('globals').select('*').
 where({ id: req.params.id }).
