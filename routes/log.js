@@ -7,6 +7,10 @@ const mc = require('../models/database');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 
+const saltRounds = 10;
+
+
+
 
 router.post('/register',function(req,res){
     //var today = new Date();
@@ -14,32 +18,25 @@ router.post('/register',function(req,res){
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
+    console.log("here")
 
     var user={
-    username:req.body.username,
-    email:req.body.email,
-    password:req.body.password
-    //created: today.toISOString();
-  }
-    flag = users.Register(user);
-    console.log(flag);
-    if(flag === 0){
-        res.send({
-            "code":200,
-            "success":"register sucessfull"
-        });
+        username:req.body.username,
+        email:req.body.email,
+        password:req.body.password
+        //created: today.toISOString();
     }
-    else{
-        res.send({
-            "code":400,
-            "failed":"error occured"
-        });
-    }
-
+    users.Register(user).
+    then((user) => res.send(user)).
+    catch((err) => {
+        res.status(400).send(err);
+    });
 });
 
 
 router.post('/login',function(req,res,next){
+    var flag = 1;
+    var hash;
     if (!req.body.email || ! req.body.password){
         res.status(400).send({error : true , message:"Please provide both username and password"});
     }
@@ -47,20 +44,17 @@ router.post('/login',function(req,res,next){
         email:req.body.email,
         password:req.body.password
     }
-    flag = users.Login(user);
-     if(flag === 1){
-        res.send({
-            "code":200,
-            "success":"login sucessfull"
-        });
-    }
-    else{
-        res.send({
-            "code":400,
-            "failed":"error occured"
-        });
-    }
+
+
+    users.Login(user).
+    then((user) => res.status(200).send({error:false, message:"login succesful"})).
+    catch((err) => {
+        res.status(400).send(err);
+    });
+
 });
+
+    
 
 
 module.exports = router;
