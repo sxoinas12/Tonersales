@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 // me poia seira tha graftoun
 
 app.use('/log',routes.Log);
-app.use('/globals',routes.Globals);
+//app.use('/globals',routes.Globals);
 app.use(parseToken);
 
 
