@@ -15,24 +15,18 @@ app.use(cookieParser());
 app.use(express.static('front-end'));
 
 app.use(bodyParser.json());
-
-//app.use('/api',routes.Api);
-
-
-// me poia seira tha graftoun
-
-app.use('/log',routes.Log);
-//app.use('/globals',routes.Globals);
 app.use(parseToken);
 
 
-//session for each users 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
+app.use('/user',routes.User);
+app.use('/globals',routes.Globals);
+app.use('/products',routes.Products);
+app.use('/orders',routes.Orders);
+app.use('/shipping',routes.Shipping);
+app.use('/payment',routes.Payment);
+
+
+
 
 app.use(function(err,req,res,next){
 	res.status(422).send({error:err.message});

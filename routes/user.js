@@ -2,30 +2,30 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const users = require('../models/users');
-const mc = require('../models/database');
 
-const session = require('express-session');
+
+//const session = require('express-session');
 const bcrypt = require('bcrypt');
-
 const saltRounds = 10;
 
 
 
 
 router.post('/register',function(req,res){
-    //var today = new Date();
 
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
-    console.log("here")
+    //console.log("here")
 
     var user={
         username:req.body.username,
         email:req.body.email,
-        password:req.body.password
+        password:req.body.password,
+        roles:1
         //created: today.toISOString();
     }
+    console.log('here....');
     users.Register(user).
     then((user) => res.send(user)).
     catch((err) => {

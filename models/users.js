@@ -8,15 +8,10 @@ var register = function(data){
   var username = data.username;
   var email = data.email;
   var password = data.password;
-  //console.log(knex);
   
-  //let a = 
-
-  /*console.log(a);
-  return a.*/
-  knex.table('users').where({email}).select('*').
+  return knex.table('Users').where({email}).select('*').
   then((data) => {
-    //console.log("going here");
+    //console.log('going here');
     if(data.length > 0) {
       throw Error('Email exists.'); 
     }
@@ -24,8 +19,9 @@ var register = function(data){
   }).
   then(() => bcrypt.hash(password, saltRounds)).
   then((hash) => {
+   // console.log("now here");
    data.password = hash;
-   return knex.table('users').insert(data); 
+   return knex.table('Users').insert(data); 
   });
 }
 
@@ -36,7 +32,7 @@ var login = function(data){
   var password = data.password;
   var hash;
   //console.log("here");
-  return knex.table('users').where({email}).select('*').
+  return knex.table('Users').where({email}).select('*').
   then((data) => {
     if(data.length == 0){
       throw Error('The email you entered doesnt exists');
@@ -52,7 +48,7 @@ var login = function(data){
     return bcrypt.genSaltSync(saltRounds)
   }).
   then((token) => {
-      return knex.table('users').where({email}).update({token})
+      return knex.table('Users').where({email}).update({token})
   });
  
  

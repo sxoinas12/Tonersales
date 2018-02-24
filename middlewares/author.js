@@ -1,24 +1,21 @@
-const mc = require('../models/database');
+var knex = require('../models/database.js');
 
 var parseToken = function(req,res,next){
 	const token = req.headers.token;
 	if(!token){
+		req.user = {};
 		return next();
 	}
 	else{
-		mc.query('SELECT * from users where token = ?',[token],function(err,results,fields){
-		if(err){
-			//some more
-			res.status(400).send({error : true , message:"something went wrong.."});
-		}
-		else {
-			
-			req.user = results[0];
-			res.send(results);
-			console.log("user authorized");
+		knex.table('Users').where('token',token).select('*').
+		then((data)=>{
+			req.user = data[0];
+			//res.send(data);
 			next();
-		}
-	});
+		}).catch((error)=>{
+			res.status(400).send({error:true, message:"something went wrong.."});
+		});
+
 	}	
 
 }
