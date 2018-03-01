@@ -12,7 +12,8 @@ const saltRounds = 10;
 
 
 router.post('/register',function(req,res){
-
+    console.log("request came");
+    console.log(req.body);
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
@@ -22,7 +23,7 @@ router.post('/register',function(req,res){
         username:req.body.username,
         email:req.body.email,
         password:req.body.password,
-        roles:1
+        role:1
         //created: today.toISOString();
     }
     console.log('here....');
