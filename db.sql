@@ -68,4 +68,44 @@ VALUES (1, 'admin', 'kwnstantinosxoinas@hotmail.gr', '$2a$10$peAQMFu9FSLJUT8HTnj
 
 
 
+INSERT INTO Products (name,description,price)
+VALUES ('purple toner','jp',20);
+
+INSERT INTO Products (name,description,price)
+VALUES ('diamond toner','laser',25);
+
+INSERT INTO Products (name,description,price)
+VALUES ('black toner','inkjet',50);
+
+INSERT INTO Products (name,description,price)
+VALUES ('red toner','inkjet',230);
+
+INSERT INTO Products (name,description,price)
+VALUES ('rgb toner','inkjet',150);
+
+INSERT INTO Products (name,description,price)
+VALUES ('green toner','laser',150);
+
+INSERT INTO Products (name,description,price)
+VALUES ('blue toner','laser',250);
+
+INSERT INTO Products (name,description,price)
+VALUES ('yellow toner','laser',80);
+
+INSERT INTO Products (name,description,price)
+VALUES ('black toner','inkjet',40);
+
+INSERT INTO Products (name,description,price)
+VALUES ('zouma toner','laser',25);
+
+INSERT INTO Products (name,description,price)
+VALUES ('copp toner','jp',35);
+
+INSERT INTO Products (name,description,price)
+VALUES ('shit toner','jp',75);
+
+INSERT INTO Products (name,description,price)
+VALUES ('black toner','jp',50);
+
+
 

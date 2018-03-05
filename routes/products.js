@@ -4,11 +4,17 @@ const bodyParser = require('body-parser');
 const knex = require('../models/database');
 
 var Constants = require('../helpers/Constants.js');
-
-
+/*
+var SearchBase = function(query){
+  var imtes = [];
+  knex.table('Products').select('*').
+  then(res) => 
+}
+*/
 router.get('/',function(req,res){
 	knex.table('Products').select('*').
 	then((data)=>{
+    //console.log(data);
 		res.send({data : data ,message:'Products'});
 	}).catch((err) => {
 		res.status(500).send({error:true , message:"something went wrong"});	
