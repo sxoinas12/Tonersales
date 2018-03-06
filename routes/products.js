@@ -3,14 +3,26 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const knex = require('../models/database');
 
+
+
 var Constants = require('../helpers/Constants.js');
-/*
-var SearchBase = function(query){
-  var imtes = [];
-  knex.table('Products').select('*').
-  then(res) => 
-}
-*/
+
+
+
+
+
+router.get('/specific',function(req,res){
+  temp = req.query.val;
+  console.log("request came");
+  knex('Products').where('name','like','%'+temp+'%').select('*').
+  then(data => {
+    res.send({data:data,message:'Products'});
+  }).catch((err) => {
+    res.status(500).send({error:true,message:"something went wrong"});
+  })
+});
+
+
 router.get('/',function(req,res){
 	knex.table('Products').select('*').
 	then((data)=>{
