@@ -14,6 +14,7 @@ var Constants = require('../helpers/Constants.js');
 router.get('/specific',function(req,res){
   temp = req.query.val;
   console.log("request came");
+  console.log("R....");
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
     res.send({data:data,message:'Products'});
