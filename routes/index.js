@@ -5,13 +5,14 @@ const products = require('./products');
 const orders = require('./orders');
 const shipping = require('./shipping');
 const payment = require('./payment');
-
+const authRoutes = require('./auth-routes');
 
 module.exports = {
 	Api:api,
 	User:user,
 	Globals:globals,
 	Products:products,
+	AuthRoutes:authRoutes,
 	Orders :orders,
 	Shipping:shipping,
 	Payment:payment

@@ -2,7 +2,7 @@ const express = require('express');
 var cookieParser = require('cookie-parser');
 const session = require('express-session');
 const routes = require('./routes/index');
-
+const passportSetup = require('./services/passport-setup');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const app = express();
@@ -17,6 +17,7 @@ app.use(express.static('front-end'));
 app.use(bodyParser.json());
 app.use(parseToken);
 
+
 app.use(function(req,res,next){
 	res.header('Access-Control-Allow-Origin','*');
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -29,7 +30,7 @@ app.use('/products',routes.Products);
 app.use('/orders',routes.Orders);
 app.use('/shipping',routes.Shipping);
 app.use('/payment',routes.Payment);
-
+app.use('/auth',routes.AuthRoutes);
 
 
 
