@@ -10,6 +10,7 @@ CREATE TABLE Users (
     username VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
+    googleId VARCHAR(255),
     token VARCHAR(255),
     role TINYINT(4),
     PRIMARY KEY(id)
