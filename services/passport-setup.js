@@ -42,9 +42,6 @@ passport.use(
         then((data) => {
             if(data.length > 0){
 
-              // throw Error('User already exists');
-              console.log(accessToken);
-              console.log(id);
               knex.table('Users').where({googleId:id}).update({token:accessToken}).then(() => {
                 return done(null,data)
               });

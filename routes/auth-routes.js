@@ -11,7 +11,7 @@ router.get('/google', passport.authenticate('google', {
 router.get('/google/redirect',passport.authenticate('google',{ failureRedirect: '/login', session:false}),(req,res)=>{
 	//redirect to profile page
 
-	res.redirect('/profile/');
+	res.redirect('http://localhost:3000/');
 	
 });
 

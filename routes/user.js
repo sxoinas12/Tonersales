@@ -40,6 +40,8 @@ router.post('/login',function(req,res,next){
     var hash;
     if (!req.body.email || ! req.body.password){
         res.status(400).send({error : true , message:"Please provide both username and password"});
+        return 
+        
     }
     var user = {
         email:req.body.email,
