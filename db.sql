@@ -11,6 +11,7 @@ CREATE TABLE Users (
     email VARCHAR(255),
     password VARCHAR(255),
     googleId VARCHAR(255),
+    facebookId VARCHAR(255),
     token VARCHAR(255),
     role TINYINT(4),
     PRIMARY KEY(id)

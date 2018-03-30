@@ -16,4 +16,12 @@ router.get('/google/redirect',passport.authenticate('google',{ failureRedirect: 
 });
 
 
+router.get('/facebook',passport.authenticate('facebook'));
+
+
+router.get('/facebook/redirect',passport.authenticate('facebook',{failureRedirect:'/login',session:false}),(req,res) =>{
+	res.redirect('http://localhost:3000/');
+});
+
+
 module.exports = router;

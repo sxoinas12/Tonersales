@@ -1,5 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 const keys = require('./keys');
 const knex = require('../models/database');
 //access token is a token that we receive from google
@@ -55,4 +57,17 @@ passport.use(
        }
     })
 }));
+
+
+
+passport.use(new FacebookStrategy({
+    clientID: keys.facebook.clientID,
+    clientSecret: keys.facebook.clientSecret,
+    callbackURL: "/auth/facebook/redirect"
+  }, (accessToken,refreshToken,profile,done) => {
+        //check if user alread exists in our database
+        //missing code
+      console.log(profile); }
+  ));
+
 
