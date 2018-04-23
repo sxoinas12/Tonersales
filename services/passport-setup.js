@@ -2,7 +2,13 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-const keys = require('./keys');
+let keys;
+if (process.env.NODE_ENV === 'development') {
+    keys = require('./keys');
+} else if (process.env.NODE_ENV === 'production') {
+    keys = require('./private-keys');
+}
+
 const knex = require('../models/database');
 //access token is a token that we receive from google
 //refresh token refresh access token
