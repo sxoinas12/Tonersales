@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const users = require('../models/users');
-
-var cookieParser = require('cookie-parser');
 const mc = require('../models/database');
 
 const session = require('express-session');

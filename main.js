@@ -1,5 +1,4 @@
 const express = require('express');
-var cookieParser = require('cookie-parser');
 const session = require('express-session');
 const routes = require('./routes/index');
 const passportSetup = require('./services/passport-setup');
@@ -7,10 +6,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const app = express();
 const parseToken = require('./middlewares/author.js');
-const cookieSession = require('cookie-session');
 const passport = require('passport');
 
-app.use(cookieParser());
 app.use(express.static('front-end'));
 
 app.use(bodyParser.json());

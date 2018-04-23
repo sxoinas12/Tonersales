@@ -1,7 +1,10 @@
+DROP DATABASE IF EXISTS tonersales;
+CREATE DATABASE tonersales;
+USE tonersales;
+
 CREATE TABLE Globals (
     Name VARCHAR(255),
     Value VARCHAR(255)
-
 );
 
 
@@ -67,6 +70,8 @@ CREATE TABLE Order_Products (
 
 INSERT INTO Users (id,username,email,password)
 VALUES (1, 'admin', 'kwnstantinosxoinas@hotmail.gr', '$2a$10$peAQMFu9FSLJUT8HTnjUJu7l.lSBFFNvtTr2w.7S7..refdlZ3JAG');
+INSERT INTO Users (id,username,email,password)
+VALUES (2, 'nikatlas', 'nikatlas@gmail.com', '$2a$10$peAQMFu9FSLJUT8HTnjUJu7l.lSBFFNvtTr2w.7S7..refdlZ3JAG');
 
 
 
