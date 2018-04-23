@@ -2,14 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const knex = require('../models/database');
-
-
-
 var Constants = require('../helpers/Constants.js');
-
-
-
-
 
 router.get('/specific',function(req,res){
   temp = req.query.val;
@@ -30,6 +23,7 @@ router.get('/',function(req,res){
     //console.log(data);
 		res.send({data : data ,message:'Products'});
 	}).catch((err) => {
+    console.log(err);
 		res.status(500).send({error:true , message:"something went wrong"});	
 	})
 });
