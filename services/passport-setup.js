@@ -2,7 +2,6 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-let keys;
 if (process.env.NODE_ENV === 'development') {
     keys = require('./keys');
 } else if (process.env.NODE_ENV === 'production') {

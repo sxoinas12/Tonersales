@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "cross-env": "^5.1.4",
     "express": "^4.16.2",
@@ -19,6 +19,7 @@
     "knex": "^0.14.4",
     "mysql": "^2.15.0",
     "nodemon": "^1.14.12",
+    "nvm": "0.0.4",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0"
