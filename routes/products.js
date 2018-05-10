@@ -10,7 +10,18 @@ router.get('/specific',function(req,res){
   console.log("R....");
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
-    res.send({data:data,message:'Products'});
+    res.send(data);
+  }).catch((err) => {
+    res.status(500).send({error:true,message:"something went wrong"});
+  })
+});
+
+// Get By id
+router.get('/:id',function(req,res){
+  let id = req.params.id;
+  knex('Products').where('id',id).select('*').
+  then(data => {
+    res.send(data[0]);
   }).catch((err) => {
     res.status(500).send({error:true,message:"something went wrong"});
   })
@@ -21,7 +32,7 @@ router.get('/',function(req,res){
 	knex.table('Products').select('*').
 	then((data)=>{
     //console.log(data);
-		res.send({data : data ,message:'Products'});
+		res.send(data);
 	}).catch((err) => {
     console.log(err);
 		res.status(500).send({error:true , message:"something went wrong"});	
@@ -35,20 +46,22 @@ router.post('/',function(req,res){
     return;
   }
   knex.table('Products').insert(req.body).then((data)=>{
-  	res.status(200).send({data:data , message:"product added"});
+  	res.status(200).send(data);
   });
 
 });
 
 
 router.put('/:id',function(req,res){
-	if (req.user.role != Constants.Roles.ADMIN) {
+	  if (req.user.role != Constants.Roles.ADMIN) {
     	res.sendStatus(403);
     	return;
   	}
-  	knex.table('Products').where('id',req.params.id).update(req.body).then((data)=>{
-  		res.status(200).send({data:data , message:"product updated"});
-  	});
+
+    let body = req.body;
+  	knex.table('Products').where('id',req.params.id).update(body).then((data)=>{
+  		res.status(200).send(data);
+  	}).catch((e) => console.log(e));
 });
 
 
@@ -58,7 +71,7 @@ router.delete('/:id',function(req,res){
     	return;
  	}
   	knex.table('Products').where('id',req.params.id).del().then((data)=>{
-  		res.status(200).send({data:data , message:"product deleted"});
+  		res.status(200).send(data);
   	});
 });
 
