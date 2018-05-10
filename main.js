@@ -22,7 +22,7 @@ app.use(function(req,res,next){
 })
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/user',routes.User);
+app.use('/users',routes.User);
 app.use('/globals',routes.Globals);
 app.use('/products',routes.Products);
 app.use('/orders',routes.Orders);

@@ -18,8 +18,6 @@ CREATE TABLE Users (
     token VARCHAR(255),
     role TINYINT(4),
     PRIMARY KEY(id)
-
-   
 );
 
 CREATE TABLE Products (
