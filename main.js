@@ -26,6 +26,7 @@ app.use(passport.session());
 app.use('/users',routes.User);
 app.use('/globals',routes.Globals);
 app.use('/products',routes.Products);
+app.use('/categories',routes.Categories);
 app.use('/orders',routes.Orders);
 app.use('/shipping',routes.Shipping);
 app.use('/payment',routes.Payment);

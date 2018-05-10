@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const users = require('../models/users');
+var Constants = require('../helpers/Constants.js');
 
 //const session = require('express-session');
 const bcrypt = require('bcrypt');
@@ -17,6 +18,12 @@ router.get('/',function(req,res){
     }).catch((err) => {
         res.status(500).send({error:true , message:"something went wrong"});
     })
+});
+
+router.get('/:id',function(req,res){
+    knex.table('Users').where('id',req.params.id).then((data)=>{
+        res.send(data[0]);
+    });
 });
 
 
@@ -36,8 +43,9 @@ router.put('/:id',function(req,res){
         res.sendStatus(403);
         return;
     }
-    knex.table('Users').where('id',req.params.id).update(req.body).then((data)=>{
-        res.status(200).send(data);
+    return knex.table('Users').where('id',req.params.id).update(req.body).then((data)=>{
+        console.log(data);
+        res.send(req.body);
     });
 });
 
@@ -48,7 +56,7 @@ router.delete('/:id',function(req,res){
         return;
     }
     knex.table('Users').where('id',req.params.id).del().then((data)=>{
-        res.status(200).send(data);
+        res.sendStatus(204);
     });
 });
 
