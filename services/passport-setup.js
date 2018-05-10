@@ -24,9 +24,7 @@ passport.deserializeUser((id,done) => {
     knex.table('Users').where({id:id}).select('*')
     .then((user)=>{
         done(null,user);
-    });
-
-  
+    });  
 });
 
 
@@ -38,30 +36,25 @@ passport.use(
         callbackURL: '/auth/google/redirect'
     }, (accessToken,refreshToken,profile,done) => {
         //check if user alread exists in our database
-      
         var user = {
             username : profile.displayName, 
-            googleId : profile.id
+            googleId : profile.id,
+            token    : accessToken
+        };
 
-        }
-        var id = profile.id
-       
-        knex.table('Users').where({googleId:id}).select('*').
+        knex.table('Users').where({googleId:user.googleId}).select('*').
         then((data) => {
             if(data.length > 0){
-
-              knex.table('Users').where({googleId:id}).update({token:accessToken}).then(() => {
-                return done(null,data)
+              knex.table('Users').where({googleId:user.googleId}).update({token:accessToken}).then(() => {
+                return done(null,data);
               });
-            }
-            else {
-                
+            } else {
                 knex.table('Users').insert(user)
                 .then((user) => {
                     return done(null,user);
                 });
-       }
-    })
+            }
+       });
 }));
 
 

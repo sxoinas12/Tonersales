@@ -3,10 +3,64 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const users = require('../models/users');
 
-
 //const session = require('express-session');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+var knex = require('../models/database');
+
+
+router.get('/',function(req,res){
+    knex.table('Users').select('*').
+    then((data)=>{
+        res.send(data);
+    }).catch((err) => {
+        res.status(500).send({error:true , message:"something went wrong"});
+    })
+});
+
+
+router.post('/',function(req,res){
+    if (req.user.role != Constants.Roles.ADMIN) {
+        res.sendStatus(403);
+        return;
+    }
+    knex.table('Users').insert(req.body).then((data)=>{
+        res.status(200).send({data:data , message:"product added"});
+    });
+});
+
+
+router.put('/:id',function(req,res){
+    if (req.user.role != Constants.Roles.ADMIN) {
+        res.sendStatus(403);
+        return;
+    }
+    knex.table('Users').where('id',req.params.id).update(req.body).then((data)=>{
+        res.status(200).send(data);
+    });
+});
+
+
+router.delete('/:id',function(req,res){
+    if (req.user.role != Constants.Roles.ADMIN) {
+        res.sendStatus(403);
+        return;
+    }
+    knex.table('Users').where('id',req.params.id).del().then((data)=>{
+        res.status(200).send(data);
+    });
+});
+
+
+
+
+
+
+
+
+
+
 
 
 

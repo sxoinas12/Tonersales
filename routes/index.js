@@ -9,8 +9,6 @@ const authRoutes = require('./auth-routes');
 const profile = require('./profile');
 
 module.exports = {
-
-
 	User:user,
 	Globals:globals,
 	Products:products,
