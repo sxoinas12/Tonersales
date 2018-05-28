@@ -29,7 +29,8 @@ const mysql = require('knex')({
     "port": 3306,
     "user": "root",
     "password": "development",
-    "database": "tonersales"
+    "database": "tonersales",
+    "charset"   : 'utf8mb4'
   }
 });
 //*/

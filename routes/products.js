@@ -76,4 +76,23 @@ router.delete('/:id',function(req,res){
 });
 
 
+router.post('/import',function(req,res){
+  if (req.user.role != Constants.Roles.ADMIN) {
+    res.sendStatus(403);
+    return;
+  }
+
+  let items = req.body;
+  insertOrUpdate(knex, 'Products', items).
+  then(() => res.sendStatus(200)).
+  catch((e) => res.send(e));
+
+});
+
+function insertOrUpdate(knex, tableName, data) {
+  const firstData = data[0] ? data[0] : data;
+  return knex.raw(knex(tableName).insert(data).toQuery() + " ON DUPLICATE KEY UPDATE " +
+    Object.getOwnPropertyNames(firstData).map((field) => `${field}=VALUES(${field})`).join(", "));
+}
+
 module.exports = router;

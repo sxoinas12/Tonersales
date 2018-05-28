@@ -8,7 +8,8 @@ const app = express();
 const parseToken = require('./middlewares/author.js');
 const passport = require('passport');
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
+
 
 app.use(function(req,res,next){
 	res.header('Access-Control-Allow-Origin','*');
