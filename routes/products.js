@@ -12,13 +12,25 @@ router.get('/specific',function(req,res){
   console.log("R....");
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
-    res.send({data:data,message:'Products'});
+    res.send(data);
+  }).catch((err) => {
+    res.status(500).send({error:true,message:"something went wrong"});
+  })
+});
+
+// Get By id
+router.get('/:id',function(req,res){
+  let id = req.params.id;
+  knex('Products').where('id',id).select('*').
+  then(data => {
+    res.send(data[0]);
   }).catch((err) => {
     res.status(500).send({error:true,message:"something went wrong"});
   })
 });
 
 
+<<<<<<< HEAD
 
 var pagingFunction = function(req,res){
   console.log(req.params)
@@ -48,6 +60,17 @@ router.get('/id/:id',function(req,res){
   }).catch((err) => {
     res.status(500).send({error:true , message:"cant find product"})
   })
+=======
+router.get('/',function(req,res){
+	knex.table('Products').select('*').
+	then((data)=>{
+    //console.log(data);
+		res.send(data);
+	}).catch((err) => {
+    console.log(err);
+		res.status(500).send({error:true , message:"something went wrong"});	
+	})
+>>>>>>> d19554e487e0d5a977b1087570579fa399ffd005
 });
 
 
@@ -58,20 +81,22 @@ router.post('/',function(req,res){
     return;
   }
   knex.table('Products').insert(req.body).then((data)=>{
-  	res.status(200).send({data:data , message:"product added"});
+  	res.status(200).send(data);
   });
 
 });
 
 
 router.put('/:id',function(req,res){
-	if (req.user.role != Constants.Roles.ADMIN) {
+	  if (req.user.role != Constants.Roles.ADMIN) {
     	res.sendStatus(403);
     	return;
   	}
-  	knex.table('Products').where('id',req.params.id).update(req.body).then((data)=>{
-  		res.status(200).send({data:data , message:"product updated"});
-  	});
+
+    let body = req.body;
+  	knex.table('Products').where('id',req.params.id).update(body).then((data)=>{
+  		res.send(body);
+  	}).catch((e) => console.log(e));
 });
 
 
@@ -81,9 +106,28 @@ router.delete('/:id',function(req,res){
     	return;
  	}
   	knex.table('Products').where('id',req.params.id).del().then((data)=>{
-  		res.status(200).send({data:data , message:"product deleted"});
+  		res.sendStatus(204);
   	});
 });
 
+
+router.post('/import',function(req,res){
+  if (req.user.role != Constants.Roles.ADMIN) {
+    res.sendStatus(403);
+    return;
+  }
+
+  let items = req.body;
+  insertOrUpdate(knex, 'Products', items).
+  then(() => res.sendStatus(200)).
+  catch((e) => res.send(e));
+
+});
+
+function insertOrUpdate(knex, tableName, data) {
+  const firstData = data[0] ? data[0] : data;
+  return knex.raw(knex(tableName).insert(data).toQuery() + " ON DUPLICATE KEY UPDATE " +
+    Object.getOwnPropertyNames(firstData).map((field) => `${field}=VALUES(${field})`).join(", "));
+}
 
 module.exports = router;
