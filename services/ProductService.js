@@ -1,3 +1,6 @@
+
+
+/*
 class ProductService {
 	constructor(){
 		this.url = url
@@ -13,3 +16,5 @@ class ProductService {
 
 
 export default   new ProductService()
+
+*/
