@@ -12,6 +12,7 @@ router.get('/specific',function(req,res){
   console.log("R....");
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
+
     res.send(data);
   }).catch((err) => {
     res.status(500).send({error:true,message:"something went wrong"});
@@ -20,6 +21,7 @@ router.get('/specific',function(req,res){
 
 // Get By id
 router.get('/:id',function(req,res){
+  console.log("request came");
   let id = req.params.id;
   knex('Products').where('id',id).select('*').
   then(data => {
@@ -30,7 +32,7 @@ router.get('/:id',function(req,res){
 });
 
 
-<<<<<<< HEAD
+
 
 var pagingFunction = function(req,res){
   console.log(req.params)
@@ -59,8 +61,9 @@ router.get('/id/:id',function(req,res){
     res.send({data : data , message:'Product found'});
   }).catch((err) => {
     res.status(500).send({error:true , message:"cant find product"})
-  })
-=======
+  });
+});
+
 router.get('/',function(req,res){
 	knex.table('Products').select('*').
 	then((data)=>{
@@ -69,8 +72,7 @@ router.get('/',function(req,res){
 	}).catch((err) => {
     console.log(err);
 		res.status(500).send({error:true , message:"something went wrong"});	
-	})
->>>>>>> d19554e487e0d5a977b1087570579fa399ffd005
+	});
 });
 
 
@@ -131,3 +133,6 @@ function insertOrUpdate(knex, tableName, data) {
 }
 
 module.exports = router;
+
+
+
