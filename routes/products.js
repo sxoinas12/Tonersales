@@ -18,6 +18,21 @@ router.get('/specific',function(req,res){
     res.status(500).send({error:true, err: err,message:"something went wrong"});
   })
 });
+// 
+router.get('/home',function(req,res){
+  temp = req.query.val
+  console.log("reqeust came");
+  //create random query for home serach
+  knex('Products').orderByRaw('rand()').select('*').limit(9).
+  then(data => {
+    res.send(data);
+  }).catch((err) => {
+    res.status(500).send({error:true,message:err});
+  })
+});
+
+
+
 
 // Get By id
 router.get('/:id',function(req,res){
