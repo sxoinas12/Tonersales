@@ -6,7 +6,7 @@ const mysql = require('knex')({
     "port": 3306,
     "user": "root",
     "password": "1234",
-    "database": "node_task_demo"
+    "database": "tonersales"
   }
 });
 

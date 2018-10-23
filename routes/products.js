@@ -8,8 +8,7 @@ const Presentation = require('../services/ProductService');
 
 router.get('/specific',function(req,res){
   temp = req.query.val;
-  console.log("request came");
-  console.log("R....");
+ 
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
     res.send(data);
@@ -47,6 +46,7 @@ router.get('/:id',function(req,res){
 
 
 var pagingFunction = function(req,res){
+
   var query = knex.table('Products').select('*')
   paginator(knex)(query, {
       perPage: 10,
@@ -62,7 +62,6 @@ var pagingFunction = function(req,res){
       res.status(500).send({error:true, err: err , message:"something went wrong"});
     });
 }
-
 router.get('/page/:page(\\d+)/', pagingFunction);
 router.get('/page/', pagingFunction);
 

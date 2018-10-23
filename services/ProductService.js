@@ -1,6 +1,8 @@
 const knex = require('../models/database');
+
 class ProductService {
-	constructor(){
+	constructor(url){
+		this.url = url
 	}
 
 
