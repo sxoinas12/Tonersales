@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const knex = require('../models/database');
 
 var OrderService = require('../services/OrderService.js');
+var UserService = require('../services/UserService.js');
 var Constants = require('../helpers/Constants.js');
 
 
@@ -21,9 +22,18 @@ router.get('/',function(req,res){
 	})
 });
 
+router.post('/verify', function(req,res) {
+  OrderService.submit(req.body)
+  .then(() => res.sendStatus(200))
+  .catch((err) => {
+    console.log(err);
+    res.sendStatus(400);
+  });
+});
+
 //create by user
 router.post('/',function(req,res){
-	if (req.user.role != Contants.Roles.User) {
+	  if (req.user.role != Contants.Roles.User) {
     	res.sendStatus(403);
     	return;
   	}

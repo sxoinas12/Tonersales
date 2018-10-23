@@ -64,17 +64,24 @@ CREATE TABLE Shipping_method (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE Orders (
-    id int NOT NULL AUTO_INCREMENT,
-    shipping_id int,
-    userId int,
-    payment_meth_id int,
-    PRIMARY KEY(id),
-    FOREIGN KEY (shipping_id) REFERENCES Shipping_method(id),
-    FOREIGN KEY (payment_meth_id) REFERENCES Payment_method(id),
-    FOREIGN KEY (userId) REFERENCES Users(id)
-
-);
+CREATE TABLE `orders` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`shipping_id` INT(11) NULL DEFAULT NULL,
+	`userId` INT(11) NULL DEFAULT NULL,
+	`products` TEXT NOT NULL,
+	`total` DOUBLE NOT NULL,
+	`payment_meth_id` INT(11) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `shipping_id` (`shipping_id`),
+	INDEX `payment_meth_id` (`payment_meth_id`),
+	INDEX `userId` (`userId`),
+	CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`shipping_id`) REFERENCES `shipping_method` (`id`),
+	CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`payment_meth_id`) REFERENCES `payment_method` (`id`),
+	CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
 
 
 CREATE TABLE Order_Products (

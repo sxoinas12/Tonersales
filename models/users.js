@@ -30,7 +30,7 @@ var login = function(data){
 
   var email= data.email;
   var password = data.password;
-  var hash;
+  var hash, Token;
   //console.log("here");
   return knex.table('Users').where({email}).select('*').
   then((data) => {
@@ -45,11 +45,13 @@ var login = function(data){
   then((isPassCorrect) => {
     if(!isPassCorrect)
       throw Error('Wrong password');
-    return bcrypt.genSaltSync(saltRounds)
+    return bcrypt.genSaltSync(saltRounds);
   }).
   then((token) => {
-      return knex.table('Users').where({email}).update({token})
-  });
+    Token = token;
+    return knex.table('Users').where({email}).update({token});
+  }).
+  then(() => Token);
  
  
 }

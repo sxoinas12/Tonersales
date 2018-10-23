@@ -124,21 +124,22 @@ router.post('/register',function(req,res){
 router.post('/login',function(req,res,next){
     var flag = 1;
     var hash;
+
     if (!req.body.email || ! req.body.password){
         res.status(400).send({error : true , message:"Please provide both username and password"});
-        return 
-        
+        return;   
     }
+
     var user = {
         email:req.body.email,
         password:req.body.password
     }
 
-
     users.Login(user).
-    then((user) => res.status(200).send({error:false, message:"login succesful"})).
+    then((token) => res.status(200).send({ token: token, error:false, message:"login succesful"})).
     catch((err) => {
-        res.status(400).send(err);
+        console.log(err);
+        res.status(401).send({ err: err });
     });
 
 });

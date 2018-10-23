@@ -12,8 +12,14 @@ class ProductService {
 		return { id, name, price, quantity, pages, printers, description, shortdescription };
 	}
 
-	verify(prod) {
-		return knex('Products').where('id',id).select('1').then((c) => console.log(c));
+	verify(product) {
+		return knex('Products').where('id',product.id).select('*')
+		.then((res) => {
+			if (res.length === 0) {
+				throw Error('No such product!');
+			}
+			return res;
+		});
 	}
 }
 module.exports = new ProductService();
