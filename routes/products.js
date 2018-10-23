@@ -12,7 +12,6 @@ router.get('/specific',function(req,res){
   console.log("R....");
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
-
     res.send(data);
   }).catch((err) => {
     res.status(500).send({error:true, err: err,message:"something went wrong"});
@@ -20,8 +19,7 @@ router.get('/specific',function(req,res){
 });
 // 
 router.get('/home',function(req,res){
-  temp = req.query.val
-  console.log("reqeust came");
+  temp = req.query.val;
   //create random query for home serach
   knex('Products').orderByRaw('rand()').select('*').limit(9).
   then(data => {
@@ -36,7 +34,6 @@ router.get('/home',function(req,res){
 
 // Get By id
 router.get('/:id',function(req,res){
-  console.log("request came");
   let id = req.params.id;
   knex('Products').where('id',id).select('*').
   then(data => {
@@ -50,14 +47,13 @@ router.get('/:id',function(req,res){
 
 
 var pagingFunction = function(req,res){
-  console.log(req.params)
   var query = knex.table('Products').select('*')
   paginator(knex)(query, {
-      perPage: 3,
+      perPage: 10,
       page:req.params.page || 1 
     }).then((result) => {
-        console.log(result);
-       //result.data = result.data.map(Presentation.PresentProduct); // this Presentation is commented-out!!!
+       console.log(result);
+       result.data = result.data.map(Presentation.PresentProducts);
        return result;
     }).then((result) => {
        res.status(200).send(result);
@@ -67,8 +63,8 @@ var pagingFunction = function(req,res){
     });
 }
 
-router.get('/:page(\\d+)/', pagingFunction);
-router.get('/', pagingFunction);
+router.get('/page/:page(\\d+)/', pagingFunction);
+router.get('/page/', pagingFunction);
 
 
 router.get('/id/:id',function(req,res){

@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const knex = require('../models/database');
 
+var OrderService = require('../services/OrderService.js');
 var Constants = require('../helpers/Constants.js');
 
 
@@ -26,6 +27,7 @@ router.post('/',function(req,res){
     	res.sendStatus(403);
     	return;
   	}
+    OrderService.
   	knex.table('Orders').insert(req.body).then((data)=>{
   		res.status(200).send({data:data , message:"order added"});
   	});

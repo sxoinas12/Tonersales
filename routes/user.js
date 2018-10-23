@@ -20,8 +20,32 @@ router.get('/',function(req,res){
     })
 });
 
+var pagingFunction = function(req,res) {
+    if (req.user.role != Constants.Roles.ADMIN) {
+        res.sendStatus(403);
+        return;
+    }
+    var query = knex.table('Users').select('*');
+    paginator(knex)(query, {
+      perPage: 10,
+      page:req.params.page || 1 
+    }).then((result) => {
+       console.log(result);
+       return result;
+    }).then((result) => {
+       res.status(200).send(result);
+    }).catch(err => {
+       console.log(err);
+       res.status(500).send({error:true, err: err , message:"something went wrong"});
+    });
+}
+router.get('/page/:page(\\d+)/', pagingFunction);
+router.get('/page/', pagingFunction);
+
+
+
 router.get('/:id',function(req,res){
-    knex.table('Users').where('id',req.params.id).then((data)=>{
+    return knex.table('Users').where('id',req.params.id).then((data)=>{
         res.send(data[0]);
     });
 });
@@ -32,7 +56,7 @@ router.post('/',function(req,res){
         res.sendStatus(403);
         return;
     }
-    knex.table('Users').insert(req.body).then((data)=>{
+    return knex.table('Users').insert(req.body).then((data)=>{
         res.status(200).send({data:data , message:"product added"});
     });
 });
