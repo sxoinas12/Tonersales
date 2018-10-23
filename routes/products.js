@@ -8,8 +8,7 @@ const Presentation = require('../services/ProductService');
 
 router.get('/specific',function(req,res){
   temp = req.query.val;
-  console.log("request came");
-  console.log("R....");
+ 
   knex('Products').where('name','like','%'+temp+'%').select('*').
   then(data => {
 
@@ -51,12 +50,14 @@ router.get('/:id',function(req,res){
 
 var pagingFunction = function(req,res){
   console.log(req.params)
+  console.log("request here");
   var query = knex.table('Products').select('*')
   paginator(knex)(query, {
-      perPage: 3,
+      perPage: 9,
       page:req.params.page || 1 
     }).then((result) => {
-       result.data = result.data.map(Presentation.PresentProduct);
+       console.log("we want results");
+       result.data = result.data.map(Presentation.PresentProducts);
        return result;
 
     }).then((result) => {
@@ -66,8 +67,8 @@ var pagingFunction = function(req,res){
     });
 }
 
-router.get('/:page(\\d+)/', pagingFunction);
-router.get('/', pagingFunction);
+router.get('/pages/:page(\\d+)/', pagingFunction);
+//router.get('/', pagingFunction);
 
 
 router.get('/id/:id',function(req,res){
