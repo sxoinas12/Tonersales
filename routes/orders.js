@@ -10,7 +10,7 @@ var Constants = require('../helpers/Constants.js');
 
 //read by user
 router.get('/',function(req,res){
-	if(req.user.role !=Constants.Roles.User){
+	if(req.user.role !=Constants.Roles.USER){
 		res.status(403).send();
 		return;
 	}
@@ -23,7 +23,19 @@ router.get('/',function(req,res){
 });
 
 router.post('/verify', function(req,res) {
-  OrderService.submit(req.body)
+  //console.log(req);
+  console.log(req.user);
+  if(req.user.role != Constants.Roles.USER){
+    
+    res.status(403).send();
+    return;
+  }
+  let order = req.body;
+  let user = req.user;
+  //console.log(order);
+ // console.log(order);
+  //console.log(order);
+  OrderService.submit(order,user)
   .then(() => res.sendStatus(200))
   .catch((err) => {
     console.log(err);

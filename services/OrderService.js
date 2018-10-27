@@ -6,25 +6,40 @@ class OrderService {
 	constructor() {
 	}
 
-	prepare(order) {
-		return UserService.getByToken(order.user.token).then((user) => {
-			order.products = JSON.stringify(order.products);
-			order.userId = user.id;
-			delete order.user;
-			return order;		
+	prepare(order,user) {
+
+		return new Promise((resolve,reject) => {
+			try{
+				//order.products = JSON.stringify(order.products);
+				//console.log(user);
+				let prepare_order = {
+					products:JSON.stringify(order.products),
+					total:order.total,
+					
+				}
+				prepare_order.userId = user.id;
+				delete prepare_order.user;
+				resolve(prepare_order);
+			 }	
+			 catch(e){
+			 	reject(e);
+			 }	
 		});
 	}
 	save(order) {
 		console.log("SAVING....");
-		console.log(order);
+		//console.log(order);
 		//return Promise.resolve(true);
 		return knex('Orders').insert(order).then(() => order);
 	}
 
 	verify(order) {
 		try {
+			//console.log("here on user");
 			let prodLength = order.products.length;
+			//console.log(order);
 			let user = order.user;
+			
 			if (prodLength < 1) return Promise.reject('No products');
 			
 			 // order Type = {
@@ -50,9 +65,12 @@ class OrderService {
 			 // }
 
 			// Verify product existence
+			console.log(order);
 			let promises = order.products.map((product) => 
+			
 				ProductService.verify(product.item)
 				.then((item) => {
+					console.log("here");
 					// check product quantities
 					if (product.quantity > item.quantity) {
 						throw Error('Not enough items');
@@ -60,7 +78,7 @@ class OrderService {
 					return item;
 				}));
 			// verify user - add to promises array!
-			promises.push(UserService.verify(user));
+			
 			// verify payment_method
 			// verify shipping_method
 			return Promise.all(promises).then(() => order);
@@ -69,9 +87,9 @@ class OrderService {
 		}
 	}
 
-	submit(order) {
+	submit(order,user) {
 		return this.verify(order)
-					.then(this.prepare)
+					.then((order) => this.prepare(order,user))
 					.then(this.save);
 	}
 }

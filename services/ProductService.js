@@ -8,12 +8,14 @@ class ProductService {
 
 	PresentProducts(data) {
 		console.log(data);
+		console.log("copming here");
 		let { id, name, price, quantity, pages, printers, description, shortdescription } = data;
 		return { id, name, price, quantity, pages, printers, description, shortdescription };
 	}
 
 	verify(product) {
-		return knex('Products').where('id',product.id).select('*')
+		console.log(product);
+		return knex('Products').where('id',product).select('*')
 		.then((res) => {
 			if (res.length === 0) {
 				throw Error('No such product!');

@@ -104,7 +104,7 @@ router.post('/register',function(req,res){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
     //console.log("here")
-
+    console.log("here");
     var user={
         username:req.body.username,
         email:req.body.email,
@@ -112,6 +112,7 @@ router.post('/register',function(req,res){
         role:1
         //created: today.toISOString();
     }
+    console.log(user);
     console.log('here....');
     users.Register(user).
     then((user) => res.send(user)).
