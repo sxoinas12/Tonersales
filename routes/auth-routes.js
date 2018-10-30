@@ -3,13 +3,13 @@ const router = express.Router();
 const passport = require('passport');
 const profile=require('./profile');
 
-router.get('/google', passport.authenticate('google', {
-    scope: ['profile']
+router.get('/google', passport.authenticate('google', function(req,res){
+		console.log(req);
 }));
 
 //callback route for google to redirect to
 router.get('/google/redirect',passport.authenticate('google',{ failureRedirect: '/login', session:false}),(req,res)=>{
-	//redirect to profile page
+	console.log("we want more frmo here");
 	res.redirect('http://localhost:3000/?token='+req.user[0].token);
 });
 

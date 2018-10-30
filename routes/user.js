@@ -98,13 +98,13 @@ router.delete('/:id',function(req,res){
 
 
 router.post('/register',function(req,res){
-    console.log("request came");
-    console.log(req.body);
+   
+    console.log(req);
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
     //console.log("here")
-    console.log("here");
+   
     var user={
         username:req.body.username,
         email:req.body.email,
@@ -112,8 +112,8 @@ router.post('/register',function(req,res){
         role:1
         //created: today.toISOString();
     }
-    console.log(user);
-    console.log('here....');
+  
+    console.log("lets see the user");
     users.Register(user).
     then((user) => res.send(user)).
     catch((err) => {

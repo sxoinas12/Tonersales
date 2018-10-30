@@ -27,6 +27,15 @@ class UserService {
 			return Promise.reject(e);
 		}
 	}
+	present(user){
+		console.log(user);
+		let presentUser = {
+			username:user.username,
+			email:user.email,
+
+		}
+		return presentUser;
+	}
 }
 
 module.exports = new UserService();

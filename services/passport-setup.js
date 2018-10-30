@@ -13,6 +13,7 @@ const knex = require('../models/database');
 //refresh token refresh access token
 
 passport.serializeUser((user,done) => {
+    console.log(user);
     //null can be an error & id is the id of mysql
     done(null,user.id);
 });
@@ -20,6 +21,7 @@ passport.serializeUser((user,done) => {
 
 passport.deserializeUser((id,done) => {
     //null can be an error & id is the id of mysql
+
     knex.table('Users').where({id:id}).select('*')
     .then((user)=>{
         done(null,user);
@@ -33,8 +35,10 @@ passport.use(
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret,
         callbackURL: '/auth/google/redirect'
+
     }, (accessToken,refreshToken,profile,done) => {
         //check if user alread exists in our database
+        console.log("we did found userrr");
         var user = {
             username : profile.displayName, 
             googleId : profile.id,
@@ -44,12 +48,15 @@ passport.use(
         knex.table('Users').where({googleId:user.googleId}).select('*').
         then((data) => {
             if(data.length > 0){
+              console.log("found user");
               knex.table('Users').where({googleId:user.googleId}).update({token:accessToken}).then(() => {
                 return done(null,data);
               });
             } else {
+                console.log("didnt found user");
                 knex.table('Users').insert(user)
                 .then((user) => {
+                    console.log(user);
                     return done(null,user);
                 });
             }
@@ -65,7 +72,9 @@ passport.use(new FacebookStrategy({
   }, (accessToken,refreshToken,profile,done) => {
         //check if user alread exists in our database
         //missing code
-      console.log(profile); }
+     // console.log(accessToken);
+      console.log(profile);
+  }
   ));
 
 
