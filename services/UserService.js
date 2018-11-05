@@ -5,10 +5,13 @@ class UserService {
 	}
 
 	getByToken(token) {
-		return knex('Users').where('token',token).select('*').then((res) => {
+		
+		return knex.table('Users').select('*').where('token',token).then((res) => {
 			if (res.length === 0) {
+				
 				throw Error('No such user!');
 			}
+			
 			return res[0];
 		});
 	}
@@ -28,12 +31,14 @@ class UserService {
 		}
 	}
 	present(user){
-		console.log(user);
+		//console.log("do i come here")
+		//console.log(user);
 		let presentUser = {
 			username:user.username,
 			email:user.email,
 
 		}
+
 		return presentUser;
 	}
 }
