@@ -41,6 +41,36 @@ class UserService {
 
 		return presentUser;
 	}
-}
+
+	Change(oldUser,newUser){
+		let user = {
+			username:"",
+			email:"",
+		}
+		if(oldUser.username !== newUser.username){
+			user["username"] = newUser.username
+		}
+		else{
+			user["username"] = oldUser.username
+		}
+		if(oldUser.email !== newUser.email){
+			user["email"] = newUser.email
+		}
+		else{
+			user["email"] = oldUser.email
+		}
+
+		return user;
+
+	}
+
+}	
 
 module.exports = new UserService();
+
+
+
+
+
+
+

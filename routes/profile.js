@@ -29,8 +29,21 @@ router.get('/',(req,res) => {
 
 
 router.post('/',(req,res) => {
-	console.log(req.body);
-	res.status(200).send("okayy")
+	let user = {};
+	if(!req.headers.token){
+		res.sendStatus(403);
+	}
+	else{
+		user = UserService.Change(req.user,req.body)
+		knex('Users').where('token',req.headers.token).update({
+			username:user.username,
+			email:user.email
+		}).then((data)=>{
+			return res.sendStatus(200);
+		}).catch((e)=>{
+			return res.status(403).send(e);
+		})
+	}
 })
 
 

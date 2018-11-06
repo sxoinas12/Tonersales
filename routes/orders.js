@@ -10,13 +10,25 @@ var Constants = require('../helpers/Constants.js');
 
 //read by user
 router.get('/',function(req,res){
+ /*
 	if(req.user.role !=Constants.Roles.USER){
 		res.status(403).send();
 		return;
 	}
-	knex.table('Orders').select('*').
+
+  */
+  console.log("request at orders came")
+  let orders = {};
+  if(!req.headers.token){
+    res.status(403).send();
+  }
+	knex.table('Orders').where('userId',req.user.id).select('*').
 	then((data)=>{
-		res.send({data : data ,message:'Orders'});
+    //console.log('here',data);
+    orders = OrderService.present(data);
+    console.log(orders);
+    //console.log(orders);
+		res.send({data : orders ,message:'Orders'});
 	}).catch((err) => {
 		res.status(500).send({error:true , message:"something went wrong"});	
 	})
@@ -24,7 +36,7 @@ router.get('/',function(req,res){
 
 router.post('/verify', function(req,res) {
   //console.log(req);
-  console.log(req.user);
+  //console.log(req.user);
   if(req.user.role != Constants.Roles.USER){
     
     res.status(403).send();
@@ -32,9 +44,7 @@ router.post('/verify', function(req,res) {
   }
   let order = req.body;
   let user = req.user;
-  //console.log(order);
- // console.log(order);
-  //console.log(order);
+  
   OrderService.submit(order,user)
   .then(() => res.sendStatus(200))
   .catch((err) => {
