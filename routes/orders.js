@@ -24,9 +24,9 @@ router.get('/',function(req,res){
   }
 	knex.table('Orders').where('userId',req.user.id).select('*').
 	then((data)=>{
-    //console.log('here',data);
+    
     orders = OrderService.present(data);
-    console.log(orders);
+  //  console.log("Order produtcts are",orders["products"]);
     //console.log(orders);
 		res.send({data : orders ,message:'Orders'});
 	}).catch((err) => {

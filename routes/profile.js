@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 var UserService = require('../services/UserService');
 const knex = require('../models/database');
+const nodemailer = require('nodemailer');
+const MailService = require('../services/MailService');
+
+
 router.get('/',(req,res) => {
 	//console.log("first here")
 	
@@ -29,6 +33,7 @@ router.get('/',(req,res) => {
 
 
 router.post('/',(req,res) => {
+	
 	let user = {};
 	if(!req.headers.token){
 		res.sendStatus(403);
@@ -45,6 +50,39 @@ router.post('/',(req,res) => {
 		})
 	}
 })
+
+
+
+router.post('/restore',(req,res)=>{
+ 	console.log(req);
+	
+	let subject = "Restore mail";
+	let body = "testing server";
+	console.log(req.body);
+	//missing some work 
+	//we must use sender mail to restore account
+    MailService.prepare(req.body.email,subject,body)
+    .then((options)=>{
+    	MailService.sendMail(options)
+    	.then((data)=>{
+    		
+    		console.log("coming here");
+    		return res.sendStatus(200);
+    	}).catch((e)=>{
+    		console.log("here??")
+    		return res.sendStatus(403);
+    	})
+    })
+    .catch((e)=>{
+    	return res.sendStatus(403);
+    })
+
+
+
+})
+
+
+
 
 
 

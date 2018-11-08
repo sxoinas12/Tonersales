@@ -28,22 +28,22 @@ router.get('/home',function(req,res){
   })
 });
 
-
-
-
 // Get By id
 router.get('/:id',function(req,res){
+  
+  
+  console.log(typeof req.params.id) 
   let id = req.params.id;
-  knex('Products').where('id',id).select('*').
+  
+  id = id.split(",")
+
+  knex('Products').whereIn('id',id).select('*').
   then(data => {
-    res.send(data[0]);
+    res.send(data);
   }).catch((err) => {
     res.status(500).send({error:true, err: err,message:"something went wrong"});
   })
 });
-
-
-
 
 var pagingFunction = function(req,res){
 

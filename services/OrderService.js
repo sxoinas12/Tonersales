@@ -109,7 +109,7 @@ class OrderService {
 		//console.log(typeof data)
 		//console.log(typeof data[0].products)
 		//console.log(data);
-		
+		console.log(data)
 		return data;
 	}
 	catch(e){
