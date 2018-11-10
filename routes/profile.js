@@ -62,17 +62,10 @@ router.post('/restore',(req,res)=>{
 	//missing some work 
 	//we must use sender mail to restore account
     MailService.prepare(req.body.email,subject,body)
-    .then((options)=>{
-    	MailService.sendMail(options)
-    	.then((data)=>{
-    		
-    		console.log("coming here");
-    		return res.sendStatus(200);
-    	}).catch((e)=>{
-    		console.log("here??")
-    		return res.sendStatus(403);
-    	})
-    })
+    .then((options)=>MailService.sendMail(options))
+	.then((data)=>{
+		return res.sendStatus(200);
+	})
     .catch((e)=>{
     	return res.sendStatus(403);
     })
