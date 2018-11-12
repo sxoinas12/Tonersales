@@ -16,6 +16,30 @@ router.get('/specific',function(req,res){
     res.status(500).send({error:true, err: err,message:"something went wrong"});
   })
 });
+
+
+var search = function(req,res){
+  let page = req.params.page || 1;
+  let term = req.params.term;
+
+  var query = knex('Products').where('name','like','%'+term+'%').select('*')
+  paginator(knex)(query, {
+      perPage: 10,
+      page:page 
+    }).then((result) => {
+        result.data = result.data.map(Presentation.PresentProducts);
+        return result;
+    }).then((result) => {
+        res.status(200).send(result);
+    }).catch(err => {
+        res.status(500).send({error:true, err: err , message:"something went wrong"});
+    });
+}
+router.get('/search/:page(\\d+)/:term', search);
+router.get('/search/:term', search);
+
+
+
 // 
 router.get('/home',function(req,res){
   temp = req.query.val;
@@ -64,6 +88,9 @@ var pagingFunction = function(req,res){
 }
 router.get('/page/:page(\\d+)/', pagingFunction);
 router.get('/page/', pagingFunction);
+
+
+
 
 
 router.get('/id/:id',function(req,res){

@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
-const CompanyEmail = "tonersales@hotmail.com";
-const password = "Password for email";
+const CompanyEmail = "kwnstantinosxoinas@hotmail.gr";
+const password = "sxoinas12345";
 
 // we will make a list of services!!
 const service = "hotmail";

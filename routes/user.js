@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const users = require('../models/users');
 var Constants = require('../helpers/Constants.js');
 
+var UserService = require('../services/UserService');
+
 //const session = require('express-session');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -20,6 +22,11 @@ router.get('/',function(req,res){
     })
 });
 
+router.get('/me',function(req,res){
+    if(req.user !== undefined) {
+        res.send(UserService.present(req.user));
+    }
+});
 
 
 router.get('/token',function(req,res){
@@ -107,7 +114,7 @@ router.delete('/:id',function(req,res){
 
 router.post('/register',function(req,res){
    
-    console.log(req);
+   
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
@@ -120,8 +127,8 @@ router.post('/register',function(req,res){
         role:1
         //created: today.toISOString();
     }
-  
-    console.log("lets see the user");
+   
+    
     users.Register(user).
     then((user) => res.send(user)).
     catch((err) => {
