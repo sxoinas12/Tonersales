@@ -20,6 +20,14 @@ router.get('/',function(req,res){
     })
 });
 
+
+
+router.get('/token',function(req,res){
+    
+    res.status(200)
+})
+
+
 var pagingFunction = function(req,res) {
     if (req.user.role != Constants.Roles.ADMIN) {
         res.sendStatus(403);

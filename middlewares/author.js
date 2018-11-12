@@ -3,8 +3,9 @@ var knex = require('../models/database.js');
 var parseToken = function(req,res,next){
 	const token = req.headers.token;
 	if(!token || token.length < 5){
-		console.log("here")
+		//console.log("agains")
 		req.user = {};
+		//console.log(req.user);
 		return next();
 	} else {
 		knex.table('Users').where('token',token).select('*').

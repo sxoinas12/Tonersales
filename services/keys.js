@@ -4,8 +4,8 @@ module.exports = {
 		clientSecret:'72MxNtMoY7bsRYSILtywzPkd'
 	},
 	facebook :{
-		clientID:'174662419755044',
-		clientSecret:'6297429c46158468484ff6d80236f0b0'
+		clientID:'2511825222191540',
+		clientSecret:'d2775c8b5e7845aa7d7b7265b8ba85ce'
 	}
 }
 
