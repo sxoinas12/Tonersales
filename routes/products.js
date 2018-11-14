@@ -19,10 +19,22 @@ router.get('/specific',function(req,res){
 
 
 var search = function(req,res){
+  
   let page = req.params.page || 1;
   let term = req.params.term;
 
+
   var query = knex('Products').where('name','like','%'+term+'%').select('*')
+  if(req.body){
+    // Filter Service
+    let filters = req.body;
+    Object.keys(filters).forEach((key, index) => {
+      if (filters[key].length) {
+        query = query.whereIn(key, filters[key]);
+      }  
+    })
+  }
+  console.log(query.toString());
   paginator(knex)(query, {
       perPage: 10,
       page:page 
@@ -35,8 +47,8 @@ var search = function(req,res){
         res.status(500).send({error:true, err: err , message:"something went wrong"});
     });
 }
-router.get('/search/:page(\\d+)/:term', search);
-router.get('/search/:term', search);
+router.post('/search/:page(\\d+)/:term', search);
+router.post('/search/:term', search);
 
 
 
