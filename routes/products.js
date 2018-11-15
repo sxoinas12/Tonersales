@@ -5,6 +5,9 @@ const knex = require('../models/database');
 var Constants = require('../helpers/Constants.js');
 const paginator = require('../helpers/paginator');
 const Presentation = require('../services/ProductService');
+const FilterService = require('../services/FilterService');
+
+
 
 router.get('/specific',function(req,res){
   temp = req.query.val;
@@ -28,13 +31,14 @@ var search = function(req,res){
   if(req.body){
     // Filter Service
     let filters = req.body;
-    Object.keys(filters).forEach((key, index) => {
+    console.log(filters);
+    /*Object.keys(filters).forEach((key, index) => {
       if (filters[key].length) {
         query = query.whereIn(key, filters[key]);
       }  
-    })
+    })*/
   }
-  console.log(query.toString());
+  //console.log(query.toString());
   paginator(knex)(query, {
       perPage: 10,
       page:page 
