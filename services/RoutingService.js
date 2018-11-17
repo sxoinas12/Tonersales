@@ -4,16 +4,17 @@ const FilterService = require('./FilterService');
 const paginator = require('../helpers/paginator');
 
 class RoutingService  {
-	constructor(router, table){
+	constructor(router, table, personal = false){
 		this.router = router;
 		this.table  = table;
+		this.personal = personal;
 	}
 
-	searchFn(table, searchField = 'name', perPage = 10) {
-		var search = function(req,res){
+	searchFn(table, perPage = 10) {
+		var search = (req,res) => {
 			let page = req.params.page || 1;
 			
-			var query 	= knex(table).select('*');
+			var query 	= this.basicQuery(req).select('*');
 			if(req.body.length){
 				query   = FilterService.parseFilters(query, req.body);
 			}
@@ -24,10 +25,10 @@ class RoutingService  {
 		}
 		return search;
 	}
-	search(searchField = 'name', perPage = 10, presentationFn) {
+	search(perPage = 10, presentationFn) {
 		let router = this.router;
 		let table = this.table;
-		let ArrangedFunction = this.searchFn(table, searchField)
+		let ArrangedFunction = this.searchFn(table)
 		let FullFn = (req,res) => ArrangedFunction(req, res)
 		.then((result) => {
 		  	if(presentationFn)
@@ -44,6 +45,16 @@ class RoutingService  {
 		router.post('/search/', FullFn);
 	}
 
+	basicQuery(req) {
+		if (this.personal && req.user.role < 3) {
+			console.log('das');
+			if (!req.user.id) {
+				throw 401;
+			}
+			return knex.table(this.table).where('userId', req.user.id);
+		}
+		return knex.table(this.table);
+	}
 	crud(roles = [1,0,1,2]) {
 		let router = this.router;
 
@@ -57,15 +68,16 @@ class RoutingService  {
 				ids = [ids];
 			}
 		    return this.checkUser(roles[1], req)
-		    .then(() => knex.table(this.table).whereIn('id',ids))
+		    .then(() => this.basicQuery(req).whereIn('id',ids))
 		    .then((data)=>{
+		    	if (!data.length) throw 404;
 		    	multiple ? res.send(data) : res.send(data[0]);
 		    })
 		    .catch((e) => this.handleErrors(e, req, res));
 		});
 		router.post('/',(req,res) => {
 		    return this.checkUser(roles[0], req)
-		    .then(() => knex.table(this.table).insert(req.body))
+		    .then(() => this.basicQuery(req).insert(req.body))
 		    .then((data)=>{
 		        res.status(200).send(data);
 		    })
@@ -73,7 +85,7 @@ class RoutingService  {
 		});
 		router.put('/:id',(req,res) => {
 		    return this.checkUser(roles[2], req)
-		    .then(() => knex.table(this.table).where('id',req.params.id).update(req.body))
+		    .then(() => this.basicQuery(req).where('id',req.params.id).update(req.body))
 		    .then((data)=>{
 		        console.log(data);
 		        res.send(req.body);
@@ -82,7 +94,7 @@ class RoutingService  {
 		});
 		router.delete('/:id',(req,res) => {
 		    return this.checkUser(roles[3], req)
-		    .then(() => knex.table(this.table).where('id',req.params.id).del())
+		    .then(() => this.basicQuery(req).where('id',req.params.id).del())
 		    .then((data)=>{
 		        res.sendStatus(204);
 		    })
@@ -116,4 +128,4 @@ class RoutingService  {
 	}
 }
 
-module.exports = (router, table) => new RoutingService(router, table);
+module.exports = (router, table, personal) => new RoutingService(router, table, personal);

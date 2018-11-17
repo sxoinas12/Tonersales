@@ -68,7 +68,7 @@ CREATE TABLE `orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`shipping_id` INT(11) NULL DEFAULT NULL,
 	`userId` INT(11) NULL DEFAULT NULL,
-	`products` TEXT NOT NULL,
+	`products` TEXT NULL,
 	`total` DOUBLE NOT NULL,
 	`payment_meth_id` INT(11) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
