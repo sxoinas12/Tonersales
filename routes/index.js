@@ -8,6 +8,7 @@ const shipping = require('./shipping');
 const payment = require('./payment');
 const authRoutes = require('./auth-routes');
 const profile = require('./profile');
+const braintree = require('./braintree');
 
 module.exports = {
 	User:user,
@@ -18,6 +19,8 @@ module.exports = {
 	Profile:profile,
 	Orders :orders,
 	Shipping:shipping,
-	Payment:payment
+	Payment:payment,
+	Braintree:braintree
+
 }
 
