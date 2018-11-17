@@ -1,4 +1,4 @@
-/*
+
 const mysql = require('knex')({
   "client": "mysql",
   "connection": {
@@ -22,7 +22,7 @@ const mysql = require('knex')({
   }
 });
 */
-//*
+/*
 const mysql = require('knex')({
   "client": "mysql",
   "connection": {

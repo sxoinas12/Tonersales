@@ -12,16 +12,8 @@ class RoutingService  {
 	searchFn(table, searchField = 'name', perPage = 10) {
 		var search = function(req,res){
 			let page = req.params.page || 1;
-			let term = req.params.term;
-			let searchFilter = {
-				type: 'search',
-			    field: searchField,
-			    options: term
-			}
+			
 			var query 	= knex(table).select('*');
-			if(term) {
-				query   = FilterService.buildQuery(query, searchFilter);
-			}
 			if(req.body.length){
 				query   = FilterService.parseFilters(query, req.body);
 			}
@@ -48,8 +40,8 @@ class RoutingService  {
 		.catch(err => {
 		    res.status(500).send({error:true, err: err , message:"something went wrong"});
 		});
-		router.post('/search/:page(\\d+)/:term', FullFn);
-		router.post('/search/:term', FullFn);
+		router.post('/search/:page(\\d+)/', FullFn);
+		router.post('/search/', FullFn);
 	}
 
 	crud(roles = [1,0,1,2]) {
@@ -75,7 +67,7 @@ class RoutingService  {
 		    return this.checkUser(roles[0], req)
 		    .then(() => knex.table(this.table).insert(req.body))
 		    .then((data)=>{
-		        res.status(200).send({data:data , message:"product added"});
+		        res.status(200).send(data);
 		    })
 		    .catch((e) => this.handleErrors(e, req, res));
 		});
@@ -101,7 +93,7 @@ class RoutingService  {
 
 	// checkUserRole 
 	checkUser(role, req) {
-		if (req.user.role > role) {
+		if (req.user.role < role) {
 	        return Promise.reject(401);
 	    }
 	    return Promise.resolve(true);
