@@ -4,13 +4,17 @@ var parseToken = function(req,res,next){
 	const token = req.headers.token;
 	if(!token || token.length < 5){
 		//console.log("agains")
-		req.user = {};
+		req.user = {
+			ip  : req.connection.remoteAddress,
+			role: 0
+		};
 		//console.log(req.user);
 		return next();
 	} else {
 		knex.table('Users').where('token',token).select('*').
 		then((data)=> {
 			req.user = data[0] || {};
+			req.user.ip = req.connection.remoteAddress;
 			next();
 		}).catch((error)=> {
 			console.log("Cannot parseToken");

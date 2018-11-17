@@ -9,7 +9,6 @@ router.get('/google', passport.authenticate('google', function(req,res){
 
 //callback route for google to redirect to
 router.get('/google/redirect',passport.authenticate('google',{ failureRedirect: '/login', session:false}),(req,res)=>{
-	
 	res.redirect('http://localhost:3000/?token='+req.user[0].token);
 });
 

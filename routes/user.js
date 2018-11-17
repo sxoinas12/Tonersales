@@ -5,6 +5,8 @@ const users = require('../models/users');
 var Constants = require('../helpers/Constants.js');
 
 var UserService = require('../services/UserService');
+var FilterService = require('../services/FilterService');
+var RoutingService = require('../services/RoutingService')(router, 'Users');
 
 //const session = require('express-session');
 const bcrypt = require('bcrypt');
@@ -12,109 +14,21 @@ const saltRounds = 10;
 
 var knex = require('../models/database');
 
-
-router.get('/',function(req,res){
-    knex.table('Users').select('*').
-    then((data)=>{
-        res.send(data);
-    }).catch((err) => {
-        res.status(500).send({error:true , message:"something went wrong"});
-    })
-});
-
 router.get('/me',function(req,res){
-    if(req.user !== undefined) {
+    if(req.user.role !== 0) {
         res.send(UserService.present(req.user));
-    }
-});
-
-
-router.get('/token',function(req,res){
-    
-    res.status(200)
-})
-
-
-var pagingFunction = function(req,res) {
-    if (req.user.role != Constants.Roles.ADMIN) {
-        res.sendStatus(403);
         return;
     }
-    var query = knex.table('Users').select('*');
-    paginator(knex)(query, {
-      perPage: 10,
-      page:req.params.page || 1 
-    }).then((result) => {
-       console.log(result);
-       return result;
-    }).then((result) => {
-       res.status(200).send(result);
-    }).catch(err => {
-       console.log(err);
-       res.status(500).send({error:true, err: err , message:"something went wrong"});
-    });
-}
-router.get('/page/:page(\\d+)/', pagingFunction);
-router.get('/page/', pagingFunction);
-
-
-
-router.get('/:id',function(req,res){
-    return knex.table('Users').where('id',req.params.id).then((data)=>{
-        res.send(data[0]);
-    });
+    res.status(401).send("Invalid token");
 });
 
-
-router.post('/',function(req,res){
-    if (req.user.role != Constants.Roles.ADMIN) {
-        res.sendStatus(403);
-        return;
-    }
-    return knex.table('Users').insert(req.body).then((data)=>{
-        res.status(200).send({data:data , message:"product added"});
-    });
-});
-
-
-router.put('/:id',function(req,res){
-    if (req.user.role != Constants.Roles.ADMIN) {
-        res.sendStatus(403);
-        return;
-    }
-    return knex.table('Users').where('id',req.params.id).update(req.body).then((data)=>{
-        console.log(data);
-        res.send(req.body);
-    });
-});
-
-
-router.delete('/:id',function(req,res){
-    if (req.user.role != Constants.Roles.ADMIN) {
-        res.sendStatus(403);
-        return;
-    }
-    knex.table('Users').where('id',req.params.id).del().then((data)=>{
-        res.sendStatus(204);
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Creates Search URL like the commented underneath  
+//DONT// router.post('/search/:page(\\d+)/:term', search);
+//DONT// router.post('/search/:term', search);
+RoutingService.search('username', 10, UserService.present);
+RoutingService.crud();
 
 router.post('/register',function(req,res){
-   
-   
     if(!req.body.email || !req.body.username || !req.body.password){
         res.status(400).send({error : true , message:"Please provide all the required fields"});
     }
@@ -157,7 +71,6 @@ router.post('/login',function(req,res,next){
         console.log(err);
         res.status(401).send({ err: err });
     });
-
 });
 
     
