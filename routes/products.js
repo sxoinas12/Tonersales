@@ -27,6 +27,7 @@ RoutingService.search(10, ProductService.presentProducts);
 RoutingService.crud();
 // 
 router.get('/home',function(req,res){
+  console.log("req")
   temp = req.query.val;
   //create random query for home serach
   knex('Products').orderByRaw('rand()').select('*').limit(9).
@@ -36,6 +37,16 @@ router.get('/home',function(req,res){
     res.status(500).send({error:true,message:err});
   })
 });
+
+
+
+// Creates Search URL like the commented underneath  
+//DONT// router.post('/search/:page(\\d+)/:term', search);
+//DONT// router.post('/search/:term', search);
+RoutingService.search('name', 10, Presentation.presentProducts);
+RoutingService.crud();
+// 
+
 
 
 
