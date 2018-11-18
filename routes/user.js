@@ -25,7 +25,7 @@ router.get('/me',function(req,res){
 // Creates Search URL like the commented underneath  
 //DONT// router.post('/search/:page(\\d+)/:term', search);
 //DONT// router.post('/search/:term', search);
-RoutingService.search('username', 10, UserService.present);
+RoutingService.search( 10, UserService.present);
 RoutingService.crud();
 
 router.post('/register',function(req,res){

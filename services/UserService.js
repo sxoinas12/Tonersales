@@ -28,12 +28,11 @@ class UserService {
 		}
 	}
 	present(user){
-		//console.log("do i come here")
-		//console.log(user);
 		let presentUser = {
 			username:user.username,
 			email:user.email,
-			token: user.token
+			token: user.token,
+			id:user.id
 		}
 
 		return presentUser;
