@@ -40,16 +40,6 @@ router.get('/home',function(req,res){
 
 
 
-// Creates Search URL like the commented underneath  
-//DONT// router.post('/search/:page(\\d+)/:term', search);
-//DONT// router.post('/search/:term', search);
-RoutingService.search('name', 10, Presentation.presentProducts);
-RoutingService.crud();
-// 
-
-
-
-
 router.post('/import',function(req,res){
   if (req.user.role != Constants.Roles.ADMIN) {
     res.sendStatus(403);
