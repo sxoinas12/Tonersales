@@ -6,8 +6,7 @@ class ProductService {
 	}
 
 
-	PresentProducts(data) {
-		
+	present(data) {
 		let { id, name, price, quantity, pages, printers, description, shortdescription } = data;
 		return { id, name, price, quantity, pages, printers, description, shortdescription };
 	}
