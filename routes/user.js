@@ -22,11 +22,35 @@ router.get('/me',function(req,res){
     res.status(401).send("Invalid token");
 });
 
-// Creates Search URL like the commented underneath  
-//DONT// router.post('/search/:page(\\d+)/:term', search);
-//DONT// router.post('/search/:term', search);
-RoutingService.search( 10, UserService.present);
-RoutingService.crud();
+
+
+
+router.post('/login',function(req,res,next){
+
+    var flag = 1;
+    var hash;
+    
+    if (!req.body.email || ! req.body.password){
+        res.status(400).send({error : true , message:"Please provide both username and password"});
+        return;   
+    }
+    console.log(req.body)
+    var user = {
+        email:req.body.email,
+        password:req.body.password
+    }
+
+    users.Login(user).
+    then((token) => res.status(200).send({ token: token, error:false, message:"login succesful"})).
+    catch((err) => {
+        console.log(err);
+        res.status(401).send({ err: err });
+    });
+});
+
+
+
+
 
 router.post('/register',function(req,res){
     if(!req.body.email || !req.body.username || !req.body.password){
@@ -49,29 +73,14 @@ router.post('/register',function(req,res){
         res.status(400).send(err);
     });
 });
+// Creates Search URL like the commented underneath  
+//DONT// router.post('/search/:page(\\d+)/:term', search);
+//DONT// router.post('/search/:term', search);
+RoutingService.search( 10, UserService.present);
+RoutingService.crud();
 
 
-router.post('/login',function(req,res,next){
-    var flag = 1;
-    var hash;
 
-    if (!req.body.email || ! req.body.password){
-        res.status(400).send({error : true , message:"Please provide both username and password"});
-        return;   
-    }
-
-    var user = {
-        email:req.body.email,
-        password:req.body.password
-    }
-
-    users.Login(user).
-    then((token) => res.status(200).send({ token: token, error:false, message:"login succesful"})).
-    catch((err) => {
-        console.log(err);
-        res.status(401).send({ err: err });
-    });
-});
 
     
 

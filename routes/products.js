@@ -20,12 +20,7 @@ router.get('/specific',function(req,res){
   })
 });
 
-// Creates Search URL like the commented underneath  
-//DONT// router.post('/search/:page(\\d+)/:term', search);
-//DONT// router.post('/search/:term', search);
-RoutingService.search(10, ProductService.presentProducts);
-RoutingService.crud();
-// 
+
 router.get('/home',function(req,res){
   console.log("req")
   temp = req.query.val;
@@ -37,6 +32,14 @@ router.get('/home',function(req,res){
     res.status(500).send({error:true,message:err});
   })
 });
+
+// Creates Search URL like the commented underneath  
+//DONT// router.post('/search/:page(\\d+)/:term', search);
+//DONT// router.post('/search/:term', search);
+RoutingService.search(10, ProductService.presentProducts);
+RoutingService.crud();
+// 
+
 
 
 

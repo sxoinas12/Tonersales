@@ -39,6 +39,8 @@ class RoutingService  {
 		    res.status(200).send(result);
 		})
 		.catch((e) => this.handleErrors(e, req, res));
+
+		
 		router.post('/search/:page(\\d+)/', FullFn);
 		router.post('/search/', FullFn);
 	}
