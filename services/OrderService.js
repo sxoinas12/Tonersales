@@ -95,23 +95,14 @@ class OrderService {
 
 
 	present(orders){
+		console.log("orders")
+		console.log(orders);
 		try{
-		let data = orders.map((item)=>{
-			item.products = JSON.parse(item.products)
-			
-			
-			//console.log(item.products);
-			return (({shipping_id,products,total,payment_meth_id})=>({shipping_id,products,total,payment_meth_id}))(item);
-			
-		})
-	
 		
-		//console.log(typeof data)
-		//console.log(typeof data[0].products)
-		//console.log(data);
-		console.log(data)
-		return data;
-	}
+			orders.products = JSON.parse(orders.products)
+			return (({shipping_id,products,total,payment_meth_id})=>({shipping_id,products,total,payment_meth_id}))(orders);
+			
+		}
 	catch(e){
 			console.log(e);
 		}

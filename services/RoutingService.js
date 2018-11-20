@@ -12,9 +12,11 @@ class RoutingService  {
 
 	searchFn(table, perPage = 10) {
 		var search = (req,res) => {
+			console.log(req.body)
 			let page = req.params.page || 1;
 			
 			var query 	= this.basicQuery(req).select('*');
+
 			if(req.body.length){
 				query   = FilterService.parseFilters(query, req.body);
 			}
@@ -29,8 +31,10 @@ class RoutingService  {
 		let router = this.router;
 		let table = this.table;
 		let ArrangedFunction = this.searchFn(table)
+		console.log("hmm")
 		let FullFn = (req,res) => ArrangedFunction(req, res)
 		.then((result) => {
+			
 		  	if(presentationFn)
 		    	result.data = result.data.map(presentationFn);
 		    return result;

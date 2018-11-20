@@ -9,7 +9,11 @@ var Constants = require('../helpers/Constants.js');
 
 const RoutingService = require('../services/RoutingService')(router, 'orders', true);
 RoutingService.crud([1,1,1,1]);
-RoutingService.search();
+RoutingService.search(10,OrderService.present);
+
+
+
+
 
 router.post('/verify', function(req,res) {
   //console.log(req);
