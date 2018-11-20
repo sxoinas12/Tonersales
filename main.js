@@ -34,6 +34,7 @@ app.use('/shipping',routes.Shipping);
 app.use('/payment',routes.Payment);
 app.use('/auth',routes.AuthRoutes);
 app.use('/profile',routes.Profile);
+app.use('/fileupload',routes.FileUpload);
 //app.use('/braintree',routes.Braintree);
 
 

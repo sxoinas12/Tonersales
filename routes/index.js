@@ -9,6 +9,7 @@ const payment = require('./payment');
 const authRoutes = require('./auth-routes');
 const profile = require('./profile');
 const braintree = require('./braintree');
+const fileupload = require('./File');
 
 module.exports = {
 	User:user,
@@ -20,7 +21,8 @@ module.exports = {
 	Orders :orders,
 	Shipping:shipping,
 	Payment:payment,
-	Braintree:braintree
+	Braintree:braintree,
+	FileUpload:fileupload
 
 }
 
