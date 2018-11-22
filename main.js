@@ -8,6 +8,8 @@ const app = express();
 const parseToken = require('./middlewares/author.js');
 const passport = require('passport');
 
+const FileService = require('./services/FileService');
+
 app.use(bodyParser.json({limit: '10mb'}));
 
 
@@ -34,7 +36,7 @@ app.use('/shipping',routes.Shipping);
 app.use('/payment',routes.Payment);
 app.use('/auth',routes.AuthRoutes);
 app.use('/profile',routes.Profile);
-app.use('/fileupload',routes.FileUpload);
+app.use('/fileupload',FileService.router);
 //app.use('/braintree',routes.Braintree);
 
 
