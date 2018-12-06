@@ -13,8 +13,6 @@ class FileService {
 		this.router = router
 		this.path = this.FileSystemPath + '/Files/';
  		this.router.post('/',(req,res) => {
- 			console.log(req.params)
- 			console.log(req.files)
  			this.acceptFile(req)
  			.then((data) => {
  				res.send(data);
@@ -23,10 +21,10 @@ class FileService {
  				res.send(e);
  			});
  		});
- 		this.router.get('/:id',(req,res) => {
+ 		this.router.get('/',(req,res) => {
  			this.getFile(req)
  			.then((data) =>{
- 				res.sendStatus(200).send(data);
+ 				res.download(data.path);
  			})
  			.catch((e) => {
  				res.sendStatus(500);
@@ -42,13 +40,13 @@ class FileService {
 					Object.keys(files).map((key,index) =>{
 						let type = files[key]['name'].split(".")[1]
 						let FileName = files[key]['path'].split(path)[1];
-						let newPath = this._getFolder(type) + FileName;
+						let newPath = path  + this._getFolder(type)+ '/' + FileName;
+
 						fs.rename(files[key]['path'],newPath, (err) => {
 							if (err) reject(err);
 							let token = uuidv4();
-							level.put(token,this.createJSON(files[key]))
+							level.put(token,this.createJSON(files[key],newPath))
 							.then((data)=>{
-								console.log('data',data)
 								resolve(data);
 							});	
 						});
@@ -78,23 +76,32 @@ class FileService {
 			}	
 	}
 
-	getFile(req,path = this.path){
+
+	getFile(req){
 		return new Promise((resolve,reject) => {
 			try{
-				
+				if(req.headers.token){
+					level.get(req.headers.token)
+					.then((file)=>{
+						resolve(file)
+					})
+					.then((e)=>{
+						reject(e);
+					});
+				}
 			}
 			catch(e){
-				reject(e);
+				reject(e)
 			}
 		})
 	}
 
 
-	createJSON(file){
+	createJSON(file,path){
 		 return {
 			name:file['name'],
 			type:file['type'],
-			path:file['path']
+			path:path
 		}
 	}
 
